@@ -22,13 +22,18 @@ cachorro3 = [1, 1, 1]
 
 # classificação
 # 1 => porco, 0 => cachorro
-dados = [porco1, porco2, porco3, cachorro1, cachorro2, cachorro3]
-classes = [1, 1, 1, 0, 0, 0]
+# dados = [porco1, porco2, porco3, cachorro1, cachorro2, cachorro3]
+treino_x = [porco1, porco2, porco3, cachorro1, cachorro2, cachorro3]
+#classe = [1, 1, 1, 0, 0, 0] # labels / etiqueta
+treino_y = [1, 1, 1, 0, 0, 0] # labels / etiqueta
+
+#f(x) = y # x => dados (treino_x), y => classe (treino_y)
 
 from sklearn.svm import LinearSVC
 
 model = LinearSVC()
-model.fit(dados, classes)
+#model.fit(dados, classes)
+model.fit(treino_x, treino_y)
 
 animal_misterioso = [1, 1, 1]
 model.predict([animal_misterioso]) # prevê o resultado
@@ -37,21 +42,26 @@ misterio1 = [1, 1, 1]
 misterio2 = [1, 1, 0]
 misterio3 = [0, 1, 1]
 
-testes = [misterio1, misterio2, misterio3]
-previsoes = model.predict(teste) # prevê o resultado
+# testes = [misterio1, misterio2, misterio3]
+teste_x = [misterio1, misterio2, misterio3]
+#testes_classes = [0, 1, 1]
+teste_y = [0, 1, 1]
 
-testes_classes = [0, 1, 1]
+#previsoes = model.predict(teste)
+previsoes = model.predict(teste_x) # prevê o resultado
 
 #previsoes # isso é um array
 #testes_classes # isso é uma lista
 #previsoes == testes_classes # comparação de elementos que retorna um array com True ou False
-corretos = (previsoes == testes_classes).sum() # soma o número de elementos verdadeiro no array
-total = len(testes)
+#corretos = (previsoes == testes_classes).sum()
+corretos = (previsoes == teste_y).sum() # soma o número de elementos verdadeiro no array
+total = len(teste_x)
 taxa_de_acerto = corretos / total
-print("Taxa de acerto: ", taxa_de_acerto * 100) # multiplica por 100 pra dar a porcentagem de acerto
+print("Taxa de acerto %.2f " % (taxa_de_acerto * 100)) # multiplica por 100 pra dar a porcentagem de acerto
 
 from sklearn.metrics import accuracy_score
 
-taxa_de_acerto = accuracy_score(testes_classes, previsoes)
-print("Taxa de acerto", taxa_de_acerto * 100)
+# taxa_de_acerto = accuracy_score(testes_classes, previsoes)
+taxa_de_acerto = accuracy_score(teste_y, previsoes)
+print("Taxa de acerto %.2f " % (taxa_de_acerto * 100))
 
