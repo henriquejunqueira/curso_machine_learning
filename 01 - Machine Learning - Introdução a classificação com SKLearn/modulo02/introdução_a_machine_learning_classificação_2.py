@@ -38,7 +38,7 @@ teste_x = x[75:] # à partir do elemento 75, ou seja, do 75 em diante
 teste_y = y[75:] # à partir do elemento 75, ou seja, do 75 em diante
 #teste_y.shape
 
-print("Treinaremos com %d elementos e testaremos com % d elementos" % (len(treino_x), len(teste_x)))
+print("Treinaremos com %d elementos e testaremos com %d elementos" % (len(treino_x), len(teste_x)))
 
 # treinando o modelo
 
@@ -51,3 +51,46 @@ previsoes = modelo.predict(teste_x)
 
 acuracia = accuracy_score(teste_y, previsoes) * 100 # acuracia é a taxa de acerto
 print("A acurácia foi %.2f%%" % acuracia)
+
+"""# Usando a biblioteca para separar treino e teste"""
+
+from sklearn.model_selection import train_test_split
+from sklearn.svm import LinearSVC
+from sklearn.metrics import accuracy_score
+
+SEED = 20 # define um número inicial pro algoritmo de geração de números aleatórios
+
+# o train_test_split separa o treino de forma randômica, por isso é necessário o SEED
+treino_x, teste_x, treino_y, teste_y = train_test_split(x, y, random_state = SEED, test_size = 0.25)
+print("Treinaremos com %d elementos e testaremos com %d elementos" % (len(treino_x), len(teste_x)))
+
+modelo = LinearSVC()
+modelo.fit(treino_x, treino_y)
+previsoes = modelo.predict(teste_x)
+
+acuracia = accuracy_score(teste_y, previsoes) * 100
+print("A acurácia foi %.2f%%" % acuracia)
+
+# treino_y.value_counts() # retorna a contagem dos valores
+teste_y.value_counts()
+
+from sklearn.model_selection import train_test_split
+from sklearn.svm import LinearSVC
+from sklearn.metrics import accuracy_score
+
+SEED = 20 # define um número inicial pro algoritmo de geração de números aleatórios
+
+# o train_test_split separa o treino de forma randômica, por isso é necessário o SEED
+treino_x, teste_x, treino_y, teste_y = train_test_split(x, y, random_state = SEED, test_size = 0.25, stratify = y)
+print("Treinaremos com %d elementos e testaremos com %d elementos" % (len(treino_x), len(teste_x)))
+
+modelo = LinearSVC()
+modelo.fit(treino_x, treino_y)
+previsoes = modelo.predict(teste_x)
+
+acuracia = accuracy_score(teste_y, previsoes) * 100
+print("A acurácia foi %.2f%%" % acuracia)
+
+treino_y.value_counts()
+
+teste_y.value_counts()
